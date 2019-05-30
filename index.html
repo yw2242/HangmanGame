@@ -8,7 +8,8 @@
 </head>
 <body>
     <h1>Word Guess Game</h1>
-    <h6>Press any key to start!</h6>
+    <h5 id="hide-text">Press any key to start!</h5>
+    <p id="display-letters"></p>
     <p id="wins-text"></p>
     <p id="remaining-text"></p>
     <p id="guessed-text"></p>
@@ -16,35 +17,58 @@
     <script type="text/javascript">
     
     // computer randomly choose a word from the array
-    var countriesList = ["China", "Korea", "Japan", "Taiwan", "Thailand", "Vietnam", "Philipines", "Malaysia", "Indonesia", "Cambodia"];
+    var countryList = ["China", "Korea", "Japan", "Taiwan", "Thailand", "Vietnam", "Philipines", "Malaysia", "Indonesia", "Cambodia"];
+    var random = countryList[Math.floor(Math.random() * countryList.length)];
+
+    var displayLetters = random.length;
+    var underscores = "";
+    for(i = 0; i < displayLetters; i++) {
+        underscores = underscores + "_ "
+    }
+
+    var answer = [];
+    for (var i = 0; i < random.length; i++ ) {
+        answer[i] = "_";
+    }
+    var userInput;
+
+   
 
     // content that needs to be displayed on the website
     var wins = 0;
     var remaining = 9;
     var letterGuessed = [];
 
+    var hideText = document.getElementById("hide-text");
+    var displayLetters = document.getElementById("display-letters");
     var winsText = document.getElementById("wins-text");
     var remainingText = document.getElementById("remaining-text");
     var guessedText = document.getElementById("guessed-text");
 
-    // user press any key
-    document.onkeyup = function(event) {
-        var userInput = event.key;
-        letterGuessed.push(userInput);
-
-    }
-
-    // wins from 0
-
-    // remaining guess from 9 to 0
-    for(var i = 9; i >= 0; i--) {
-
-    }
-
-    // display
     winsText.textContent = "Wins: " + wins;
     remainingText.textContent = "Remaining Guess: " + remaining;
     guessedText.textContent = "Letter Guessed: " + letterGuessed;
+
+    // user press any key
+    document.onkeyup = function(event) {
+        userInput = event.key;
+        letterGuessed.push(userInput);
+    }
+
+
+    // check if user pick === computer pick --> win
+    for(j = 0; j < random.length; j++) {
+        if (userInput === random[j]) {
+            answer[j] = userInput;
+            remaining--;
+        }
+        if (letterGuessed.indexOf("_") === -1 ) {
+        //win!
+            alert("You won!")
+        } else if (remaining === 0){
+        //player has lost
+        }
+    }
     
     </script>
 </body>
