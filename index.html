@@ -9,7 +9,7 @@
 <body>
     <h1>Word Guess Game</h1>
     <h5 id="hide-text">Press any key to start!</h5>
-    <p id="display-letters"></p>
+    <p id="random"></p>
     <p id="wins-text"></p>
     <p id="remaining-text"></p>
     <p id="guessed-text"></p>
@@ -17,30 +17,24 @@
     <script type="text/javascript">
     
     // computer randomly choose a word from the array
-    var countryList = ["China", "Korea", "Japan", "Taiwan", "Thailand", "Vietnam", "Philipines", "Malaysia", "Indonesia", "Cambodia"];
+    var countryList = ["china", "korea", "japan", "taiwan", "thailand", "vietnam", "philipines", "malaysia", "indonesia", "cambodia"];
     var random = countryList[Math.floor(Math.random() * countryList.length)];
-
-    var displayLetters = random.length;
-    var underscores = "";
-    for(i = 0; i < displayLetters; i++) {
-        underscores = underscores + "_ "
-    }
-
+    console.log(random)
+    
+    var wins = 0;
+    var remaining = 9;
+    var letterGuessed = [];
     var answer = [];
     for (var i = 0; i < random.length; i++ ) {
-        answer[i] = "_";
+        answer.push("_ ");
     }
+    console.log(random)
     var userInput;
 
    
 
     // content that needs to be displayed on the website
-    var wins = 0;
-    var remaining = 9;
-    var letterGuessed = [];
 
-    var hideText = document.getElementById("hide-text");
-    var displayLetters = document.getElementById("display-letters");
     var winsText = document.getElementById("wins-text");
     var remainingText = document.getElementById("remaining-text");
     var guessedText = document.getElementById("guessed-text");
@@ -51,24 +45,68 @@
 
     // user press any key
     document.onkeyup = function(event) {
-        userInput = event.key;
-        letterGuessed.push(userInput);
-    }
 
+        userInput = event.key;
+
+        letterGuessed.push(userInput);
+
+        console.log("current input: " + userInput)
+
+    var match = false;
 
     // check if user pick === computer pick --> win
-    for(j = 0; j < random.length; j++) {
-        if (userInput === random[j]) {
-            answer[j] = userInput;
-            remaining--;
-        }
-        if (letterGuessed.indexOf("_") === -1 ) {
+
+        for(j = 0; j < random.length; j++) {
+
+                console.log("comparing " + userInput + " against " + random[j])
+
+            if (userInput === random[j]) {
+
+                    console.log("match @" + j)
+
+                answer[j] = userInput;
+
+                console.log(answer + " ," + remaining)
+
+                match = true;
+
+                }
+
+            }
+
+        if (!match) {
+
+                remaining--;
+
+                remainingText.textContent = "Remaining Guess: " + remaining;
+
+            }
+
+        match = false
+
+        guessedText.textContent = "Letter Guessed: " + letterGuessed;
+
+        console.log(answer)
+
+        console.log(answer.indexOf("_ "))
+
+        if (answer.indexOf("_ ") === -1 ) {
+
+            //console.log(letterGuessed.indexOf("_ "))
+
         //win!
-            alert("You won!")
+
+            alert("You won!");
+
         } else if (remaining === 0){
+
         //player has lost
-        }
+            alert("You lost!");
+
+        }    
+
     }
+
     
     </script>
 </body>
